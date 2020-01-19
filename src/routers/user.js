@@ -1,5 +1,6 @@
 import express from "express";
 import { UserModel } from "../models";
+import { auth } from "../middlewares";
 
 const router = express.Router();
 
@@ -31,6 +32,18 @@ router.post("/users/login", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).send(error);
+  }
+});
+
+router.post("/users/logout", auth, async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter(token => {
+      return token.token != req.token;
+    });
+    await req.user.save();
+    res.send();
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 
