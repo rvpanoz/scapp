@@ -22,3 +22,5 @@ node_modules/
 # generate output
 dist
 .cache/
+
+.curl

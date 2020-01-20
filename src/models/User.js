@@ -50,7 +50,13 @@ userSchema.pre("save", async function(next) {
 });
 
 userSchema.methods.generateAuthToken = async function() {
-  const token = jwt.sign({ _id: this._id }, JWT_KEY);
+  const token = jwt.sign(
+    {
+      exp: Math.floor(Date.now() / 1000) + 60 * 60,
+      _id: this._id
+    },
+    JWT_KEY
+  );
 
   // generate an auth token for the user
   this.tokens = this.tokens.concat({ token });
