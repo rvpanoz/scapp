@@ -4,11 +4,18 @@ import config from "../config";
 
 const { JWT_KEY } = config || {};
 
+/**
+ * Auth middleware
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
 const auth = async (req, res, next) => {
   const token = req.header("Authorization").replace("Bearer ", "");
-  const data = jwt.verify(token, JWT_KEY);
 
   try {
+    const data = jwt.verify(token, JWT_KEY);
     const user = await UserModel.findOne({
       _id: data._id,
       "tokens.token": token
