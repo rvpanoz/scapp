@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const uri =
-  "mongodb+srv://dbAdmin:z0ubr0!28@cluster0-diifo.mongodb.net/db_z0?retryWrites=true&w=majority";
+  "mongodb+srv://agileactors:ycMZ0OOkd4aTnaeD@cluster0-diifo.mongodb.net/db_z0?retryWrites=true&w=majority";
 const db = mongoose.connection;
 
 // setup mongoose

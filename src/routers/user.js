@@ -8,7 +8,7 @@ const router = express.Router();
  * Register a new user to the system
  *
  */
-router.post("/users", async (req, res) => {
+router.post("/users/create", async (req, res) => {
   try {
     const user = new UserModel(req.body);
 
@@ -21,11 +21,10 @@ router.post("/users", async (req, res) => {
 });
 
 /**
- * Login an existing registered user of the system
+ * Login an existing registered user to the system
  *
  */
 router.post("/users/login", async (req, res) => {
-  console.log(req.body);
   try {
     const { email, password } = req.body;
     const user = await UserModel.findByCredentials(email, password);
@@ -43,6 +42,11 @@ router.post("/users/login", async (req, res) => {
   }
 });
 
+router.get("/users/profile", auth, async (req, res) => {
+  // View logged in user profile
+  res.send(req.user);
+});
+
 /**
  * Signout a registered user of the system
  *
@@ -53,6 +57,17 @@ router.post("/users/logout", auth, async (req, res) => {
       return token.token != req.token;
     });
     console.log(req.user, req.token);
+    await req.user.save();
+    res.send();
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.post("/users/logoutall", auth, async (req, res) => {
+  // Log user out of all devices
+  try {
+    req.user.tokens.splice(0, req.user.tokens.length);
     await req.user.save();
     res.send();
   } catch (error) {
