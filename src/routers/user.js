@@ -4,6 +4,10 @@ import { auth } from "../middlewares";
 
 const router = express.Router();
 
+/**
+ * Register a new user to the system
+ *
+ */
 router.post("/users", async (req, res) => {
   try {
     const user = new UserModel(req.body);
@@ -16,6 +20,10 @@ router.post("/users", async (req, res) => {
   }
 });
 
+/**
+ * Login an existing registered user of the system
+ *
+ */
 router.post("/users/login", async (req, res) => {
   console.log(req.body);
   try {
@@ -35,14 +43,10 @@ router.post("/users/login", async (req, res) => {
   }
 });
 
-router.post("/users/authenticate", auth, async (req, res) => {
-  try {
-    res.send(req.token);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
+/**
+ * Signout a registered user of the system
+ *
+ */
 router.post("/users/logout", auth, async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter(token => {

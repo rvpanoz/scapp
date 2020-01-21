@@ -4,6 +4,13 @@ import config from "../config";
 
 const { JWT_KEY } = config || {};
 
+/**
+ * Auth middleware
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
 const auth = async (req, res, next) => {
   const token = req.header("Authorization").replace("Bearer ", "");
 
