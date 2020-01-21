@@ -48,7 +48,7 @@ There are five available routes:
 
 ---
 
-Returns json data about a single user.
+Creates a new user
 
 - **URL**
 
