@@ -94,4 +94,20 @@ Creates a new user
     curl -i -X POST -d "{\"name\": \"Alan\", \"email\": \"woodoo@goohoo.com\", \"password\": \"ohshit\"}" -H "Content-Type: application/json" http://localhost:8000/users/login
   ```
 
-  ### Authenticate user
+### Authenticate user
+
+---
+
+work in progress..
+
+### Logout user from a device
+
+---
+
+work in progress..
+
+### Logout user from all devices
+
+---
+
+work in progress..
