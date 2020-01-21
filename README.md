@@ -60,9 +60,9 @@ Creates a new user
 
 - **Data Params**
 
-  username [String]
+  username [Required]
 
-  password [String]
+  password [Required]
 
 - **Success Response:**
 
