@@ -5,7 +5,7 @@ import config from "../config";
 const { JWT_KEY } = config || {};
 
 /**
- * Auth middleware
+ * Auth middleware which verifies the token
  *
  * @param {*} req
  * @param {*} res

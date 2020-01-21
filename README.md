@@ -91,5 +91,7 @@ Creates a new user
 - **Sample Call:**
 
   ```javascript
-    curl -i -X POST -d "{\"email\": \"woodoo@goohoo.com\", \"password\": \"ohshit\"}" -H "Content-Type: application/json" http://localhost:8000/users/login
+    curl -i -X POST -d "{\"name\": \"Alan\", \"email\": \"woodoo@goohoo.com\", \"password\": \"ohshit\"}" -H "Content-Type: application/json" http://localhost:8000/users/login
   ```
+
+  ### Authenticate user
