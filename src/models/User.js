@@ -69,7 +69,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
   const user = await UserModel.findOne({ email });
 
   if (!user) {
-    throw new Error("User not found");
+    return null;
   }
 
   try {
