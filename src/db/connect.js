@@ -1,29 +1,36 @@
 import mongoose from "mongoose";
+import config from "../config";
 
-const uri =
-  "mongodb+srv://agileactors:ycMZ0OOkd4aTnaeD@cluster0-diifo.mongodb.net/db_z0?retryWrites=true&w=majority";
-const db = mongoose.connection;
+const { URI } = config;
 
 // setup mongoose
 mongoose.Promise = global.Promise;
 mongoose.set("useCreateIndex", true);
 
 const connect = () => {
-  try {
-    mongoose.connect(uri, {
+  const db = mongoose.connection;
+  const resultP = new Promise((resolve, reject) => {
+    mongoose.connect(URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
 
-    //bind connection to error event (to get notification of connection errors)
-    db.on("error", console.error.bind(console, "MongoDB connection error:"));
+    db.on("error", error =>
+      reject({
+        success: false,
+        message: error
+      })
+    );
 
     db.once("open", () => {
-      console.log("database connection: OK");
+      resolve({
+        success: true,
+        message: "database connection: OK"
+      });
     });
-  } catch (error) {
-    console.error(error);
-  }
+  });
+
+  return resultP;
 };
 
 export default connect;

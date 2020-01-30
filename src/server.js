@@ -5,7 +5,7 @@ import config from "./config";
 import { connect } from "./db";
 import { userRouter } from "./routers";
 
-const { port } = config || 8000;
+const { PORT } = config || 8000;
 const app = express();
 
 app.use(cors());
@@ -13,7 +13,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(userRouter);
 
-app.listen(port, () => {
-  console.log(`Server is running at port: ${port}`);
-  connect();
+app.listen(PORT, () => {
+  console.log(`Server is running at port: ${PORT}`);
+
+  connect()
+    .then(({ message }) => console.log(message))
+    .catch(error => console.log(error));
 });
