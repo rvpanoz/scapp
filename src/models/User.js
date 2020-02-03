@@ -41,28 +41,36 @@ const userSchema = mongoose.Schema({
 userSchema.pre("save", async function(next) {
   const user = this;
 
-  // hash the password before saving the user model
-  if (user.isModified("password")) {
-    user.password = await bcrypt.hash(user.password, 8);
-  }
+  try {
+    // hash the password before saving the user model
+    if (user.isModified("password")) {
+      user.password = await bcrypt.hash(user.password, 8);
+    }
 
-  next();
+    next();
+  } catch (error) {
+    next();
+  }
 });
 
-userSchema.methods.generateAuthToken = async function() {
-  const token = jwt.sign(
-    {
-      exp: Math.floor(Date.now() / 1000) + 60 * 60,
-      _id: this._id
-    },
-    JWT_KEY
-  );
+userSchema.methods.generateAuthToken = async () => {
+  try {
+    const token = jwt.sign(
+      {
+        exp: Math.floor(Date.now() / 1000) + 60 * 60,
+        _id: this._id
+      },
+      JWT_KEY
+    );
 
-  // generate an auth token for the user
-  this.tokens = this.tokens.concat({ token });
-  await this.save();
+    // generate an auth token for the user
+    this.tokens = this.tokens.concat({ token });
+    await this.save();
 
-  return token;
+    return token;
+  } catch (error) {
+    throw error;
+  }
 };
 
 userSchema.statics.findByCredentials = async (email, password) => {
@@ -76,12 +84,14 @@ userSchema.statics.findByCredentials = async (email, password) => {
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
-      throw new Error("Invalid login credentials");
+      throw {
+        error: "Invalid login credentials"
+      };
     }
 
     return user;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
