@@ -22,7 +22,7 @@ const auth = async (req, res, next) => {
     });
 
     if (!user) {
-      throw new Error();
+      throw new Error("User not found");
     }
 
     req.user = user;

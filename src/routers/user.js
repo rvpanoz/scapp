@@ -36,7 +36,7 @@ router.post("/users/login", async (req, res) => {
     const token = await user.generateAuthToken();
     res.send({ user, token });
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send({ error: error.message });
   }
 });
 
@@ -70,6 +70,7 @@ router.post("/users/logoutall", auth, async (req, res) => {
   try {
     req.user.tokens.splice(0, req.user.tokens.length);
     await req.user.save();
+
     res.send();
   } catch (error) {
     res.status(500).send(error);

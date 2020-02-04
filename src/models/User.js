@@ -53,7 +53,7 @@ userSchema.pre("save", async function(next) {
   }
 });
 
-userSchema.methods.generateAuthToken = async () => {
+userSchema.methods.generateAuthToken = async function() {
   try {
     const token = jwt.sign(
       {
