@@ -49,6 +49,7 @@ userSchema.pre("save", async function(next) {
 
     next();
   } catch (error) {
+    console.log(error);
     next();
   }
 });

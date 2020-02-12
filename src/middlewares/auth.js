@@ -12,7 +12,14 @@ const { JWT_KEY } = config || {};
  * @param {*} next
  */
 const auth = async (req, res, next) => {
-  const token = req.header("Authorization").replace("Bearer ", "");
+  const authorizationHeader = req.header("Authorization");
+  let token = null;
+
+  if (!authorizationHeader) {
+    res.status(400).send({ error: "Authorization Header is missing" });
+  }
+
+  token = req.header("Authorization").replace("Bearer ", "");
 
   try {
     const data = jwt.verify(token, JWT_KEY);

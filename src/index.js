@@ -6,5 +6,8 @@ require("@babel/register")({
 // standalone runtime for Regenerator-compiled generator and async functions.
 require("regenerator-runtime/runtime");
 
+const mk = require("./mk");
+global.mk = mk;
+
 // import the rest of our application.
 module.exports = require("./server.js");
