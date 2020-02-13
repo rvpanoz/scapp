@@ -28,12 +28,14 @@ const RecordSchema = mongoose.Schema({
   },
   userId: {
     type: ObjectId,
-    required: true
+    required: [
+      function() {
+        return !this.userId || this.userId !== null;
+      },
+      "is required"
+    ]
   },
-  exercises: {
-    type: Array,
-    children: [ExerciseSchema]
-  }
+  exercises: [ExerciseSchema]
 });
 
 RecordSchema.pre("save", async function(next) {
