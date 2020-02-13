@@ -1,10 +1,19 @@
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
+const { Array, String, Number, ObjectId } = Schema.Types;
 
 const ExerciseSchema = new mongoose.Schema({
-  type: String,
-  name: String,
+  type: {
+    type: String,
+    lowercase: true,
+    required: true
+  },
+  name: {
+    type: String,
+    lowercase: true,
+    required: true
+  },
   duration: Number,
   reps: Number,
   sets: Number
@@ -18,10 +27,13 @@ const RecordSchema = mongoose.Schema({
     type: Date
   },
   userId: {
-    type: Schema.Types.ObjectId,
+    type: ObjectId,
     required: true
   },
-  exercises: [ExerciseSchema]
+  exercises: {
+    type: Array,
+    children: [ExerciseSchema]
+  }
 });
 
 RecordSchema.pre("save", async function(next) {
@@ -29,6 +41,12 @@ RecordSchema.pre("save", async function(next) {
 
   record.created_at = new Date();
   record.updated_at = new Date();
+
+  const { exercises } = record;
+
+  if (!exercises || exercises.length === 0) {
+    throw new Error("Missing exercises");
+  }
 
   next();
 });

@@ -10,11 +10,10 @@ router.post("/records/create", auth, async (req, res) => {
     const record = new RecordModel(req.body);
 
     await record.save();
-
     res.status(200).send();
   } catch (error) {
     mk.log(error.message);
-    res.status(400).send(error);
+    res.status(400).send(error.message);
   }
 });
 

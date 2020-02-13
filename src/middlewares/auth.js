@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { UserModel } from "../models";
 import config from "../config";
 
+const { mk } = global;
 const { JWT_KEY } = config || {};
 
 /**
@@ -36,7 +37,11 @@ const auth = async (req, res, next) => {
     req.token = token;
     next();
   } catch (error) {
-    res.status(401).send({ error: "Not authorized to access this resource" });
+    mk.log(error.message);
+    res.status(401).send({
+      success: false,
+      error: "Not authorized to access this resource"
+    });
   }
 };
 
