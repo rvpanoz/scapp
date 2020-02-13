@@ -50,5 +50,12 @@ RecordSchema.pre("save", async function(next) {
   next();
 });
 
+RecordSchema.statics.findByUserId = async userId => {
+  const records = await RecordModel.find({ userId });
+  console.log(records);
+
+  return records;
+};
+
 const RecordModel = mongoose.model("Record", RecordSchema);
 export default RecordModel;

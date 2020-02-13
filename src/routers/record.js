@@ -5,7 +5,7 @@ import { auth } from "../middlewares";
 const { mk } = global;
 const router = express.Router();
 
-router.post("/records/create", auth, async (req, res) => {
+router.post("/record/create", auth, async (req, res) => {
   try {
     const record = new RecordModel(req.body);
 
@@ -19,8 +19,23 @@ router.post("/records/create", auth, async (req, res) => {
     } = req || {};
 
     mk.log(`${email && email}: ${error.message}`);
-    res.status(400).send(error.message);
+    res.status(400).send({
+      success: false,
+      error: error.message
+    });
   }
+});
+
+router.get("/record/list", auth, async (req, res) => {
+  const {
+    user: { _id }
+  } = req;
+
+  const records = await RecordModel.findByUserId(_id);
+  res.status(200).send({
+    success: true,
+    data: records
+  });
 });
 
 export default router;
