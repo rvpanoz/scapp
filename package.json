@@ -20,7 +20,6 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.1",
     "mongoose": "^5.8.9",
-    "ramda": "^0.27.0",
     "validator": "^12.1.0"
   },
   "devDependencies": {
