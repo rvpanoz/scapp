@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+const Schema = mongoose.Schema;
+
 const ExerciseSchema = new mongoose.Schema({
   type: String,
   name: String,
@@ -16,13 +18,13 @@ const RecordSchema = mongoose.Schema({
     type: Date
   },
   userId: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true
   },
   exercises: [ExerciseSchema]
 });
 
-RecordSchema.pre("save", async next => {
+RecordSchema.pre("save", async function(next) {
   const record = this;
 
   record.created_at = new Date();
