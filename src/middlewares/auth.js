@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { UserModel } from "../models";
 import config from "../config";
 
+const { mk } = global;
 const { JWT_KEY } = config || {};
 
 /**
@@ -12,7 +13,14 @@ const { JWT_KEY } = config || {};
  * @param {*} next
  */
 const auth = async (req, res, next) => {
-  const token = req.header("Authorization").replace("Bearer ", "");
+  const authorizationHeader = req.header("Authorization");
+  let token = null;
+
+  if (!authorizationHeader) {
+    res.status(400).send({ error: "Authorization Header is missing" });
+  }
+
+  token = req.header("Authorization").replace("Bearer ", "");
 
   try {
     const data = jwt.verify(token, JWT_KEY);
@@ -29,7 +37,11 @@ const auth = async (req, res, next) => {
     req.token = token;
     next();
   } catch (error) {
-    res.status(401).send({ error: "Not authorized to access this resource" });
+    mk.log(error.message);
+    res.status(401).send({
+      success: false,
+      error: "Not authorized to access this resource"
+    });
   }
 };
 

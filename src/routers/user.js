@@ -2,6 +2,7 @@ import express from "express";
 import { UserModel } from "../models";
 import { auth } from "../middlewares";
 
+const { mk } = global;
 const router = express.Router();
 
 /**
@@ -34,8 +35,10 @@ router.post("/users/login", async (req, res) => {
     }
 
     const token = await user.generateAuthToken();
+    mk.log(`User ${email} logged in`);
     res.send({ user, token });
   } catch (error) {
+    mk.log(error.message);
     res.status(400).send({ error: error.message });
   }
 });
