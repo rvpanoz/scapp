@@ -12,8 +12,8 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/css", express.static(path.join(__dirname, "/public/css")));
-app.use("/js", express.static(path.join(__dirname, "/public/js")));
+app.use("/css", express.static(path.join(__dirname, "public/css")));
+app.use("/js", express.static(path.join(__dirname, "public/js")));
 
 app.use(bodyParser.json());
 app.use(appRouter);
