@@ -13,10 +13,9 @@ const { JWT_KEY } = config || {};
  * @param {*} next
  */
 const auth = async (req, res, next) => {
-  const authorizationHeader = req.header("Authorization");
   let token = null;
 
-  if (!authorizationHeader) {
+  if (!req.headers || !req.headers["Authorization"]) {
     res.status(400).send({ error: "Authorization Header is missing" });
   }
 
