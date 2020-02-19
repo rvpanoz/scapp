@@ -4,12 +4,16 @@ import { auth } from "../middlewares";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../views/index.html"), {
-    headers: {
-      Authorization: "Bearer 1234"
-    }
-  });
+router.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "../views/login.html"));
+});
+
+router.get("/", auth, (req, res) => {
+  res.sendFile(path.join(__dirname, "../views/index.html"));
+});
+
+router.get("/create", auth, (req, res) => {
+  res.sendFile(path.join(__dirname, "../views/create.html"));
 });
 
 export default router;
